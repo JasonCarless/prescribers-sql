@@ -134,11 +134,16 @@ where total_claim_count > 3000;
 --a. First, create a list of all npi/drug_name combinations for pain management specialists (specialty_description = 'Pain Management') in the city of Nashville (nppes_provider_city = 'NASHVILLE'), where the drug is an opioid (opiod_drug_flag = 'Y'). **Warning:** Double-check your query before running it. You will only need to use the prescriber and drug tables since you don't need the claims numbers yet.
 select npi, drug_name
 from prescriber
-cross join drug
+natural join drug
 where specialty_description = 'Pain Management'
 and nppes_provider_city = 'NASHVILLE'
 and opioid_drug_flag = 'Y';
 
 --b. Next, report the number of claims per drug per prescriber. Be sure to include all combinations, whether or not the prescriber had any claims. You should report the npi, the drug name, and the number of claims (total_claim_count).
-    
+select prescriber.npi, drug.drug_name, total_claim_count
+from prescriber
+natural join drug
+where specialty_description = 'Pain Management'
+and nppes_provider_city = 'NASHVILLE'
+and opioid_drug_flag = 'Y';
 --c. Finally, if you have not done so already, fill in any missing values for total_claim_count with 0. Hint - Google the COALESCE function.
